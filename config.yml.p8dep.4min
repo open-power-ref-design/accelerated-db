@@ -17,9 +17,9 @@
 reference-architecture:
     gpudb_nvidia_playbook:
         description: playbook for installing nvidia for gpudb
-        cuda_deb: "/tmp/cuda-repo-ubuntu1604-8-0-local_8.0.35-1_ppc64el.deb"
+        cuda_deb: "packages/cuda8.deb"
         driver_level: "nvidia-361"
-        dkms_deb: "/tmp/dkms_2.2.0.3-2ubuntu14_all.deb"
+        dkms_deb: "packages/dkms.deb"
 
 ipaddr-mgmt-network: 192.168.3.0/24
 ipaddr-mgmt-switch:
