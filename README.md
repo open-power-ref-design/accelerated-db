@@ -2,16 +2,20 @@
 
 ## Introduction
 
-A brief introduction of Accelerated Database
+The use of a OpenPower cluster to enable an Accelerated Database(database making use of any accelerators).  This repository will facilitate Kinetica's GPUdb. 
 
 ## Supported Hardware Configurations
 
-- **4-Minsky Cluster**
-    - Four IBM POWER S822LC with Tesla p100 GPUs. Add more details.
+- **Minimum configuration - Four Minsky Cluster**
+    - Four IBM POWER S822LC with Tesla p100 GPUs.
+    - See BOM for details
 
-- **Another Cluster**
-    - This is another cluster.
+- **Maximim configuration - Sixteen Minsky Cluster**
+    - Sixteen IBM POWER S822LC with Tesla p100 GPUs
+    - See BOM for details
 
 ## Installation Instructions
-1. Build a config.yml file using one of the templates provided.
-2. Run `deploy.sh <config_path>` to initiate deployment.
+1. git clone https://github.ibm.com/open-power-solution-genesis/accelerated-db.git
+2. Run `install.sh`
+3. Build/edit the config.yml file using one of the templates provided.
+4. Run `deploy.sh` to initiate deployment.
