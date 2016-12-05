@@ -12,7 +12,7 @@ DYNAMIC_INVENTORY=$GENESIS_FULL/"scripts/python/yggdrasil/inventory.py"
 ACTIVATE_FILE=".accel-activate"
 #sudo apt-get install aptitude
 
-#./setup_git_repo.sh "${GENESIS_REMOTE}" "${GENESIS_LOCAL}" "${GENESIS_COMMIT}"
+./setup_git_repo.sh "${GENESIS_REMOTE}" "${GENESIS_LOCAL}" "${GENESIS_COMMIT}"
 
 
 mkdir -p ${PACKAGE_DIR}
@@ -20,8 +20,8 @@ mkdir -p ${PACKAGE_DIR}
 cd ${PACKAGE_DIR}
 
 #Download Cuda Repo
-#wget  ${CUDA_REPO} -O cuda8.deb
-#wget ${DKMS_LOCATION} -O dkms.deb
+wget  ${CUDA_REPO} -O cuda8.deb
+wget ${DKMS_LOCATION} -O dkms.deb
 
 cd ..
 
