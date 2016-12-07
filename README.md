@@ -17,11 +17,11 @@ Create a network bridge named "br0" with port connected to management network (1
 
 Below is an example interface defined in the local "/etc/network/interfaces" file. Note that "enP1p3s0f0" is the name of the interface connected to the management network.
 
-auto br0
-iface br0 inet static
-      address 192.168.3.3
-      netmask 255.255.255.0
-      bridge_ports enP1p3s0f0
+- auto br0
+- iface br0 inet static
+     - address 192.168.3.3
+     - netmask 255.255.255.0
+     - bridge_ports enP1p3s0f0
 
 
 ## Installation Instructions
