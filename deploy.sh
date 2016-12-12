@@ -10,13 +10,21 @@ if [ -z "$1" ]; then
 	echo "ERROR: Please pass in config file"
 else
 source ${ACTIVATE_FILE}
-source ${GENESIS_FULL}/${SETUP_ENV_LOC}
 cp $1 ${GENESIS_FULL}/config.yml
 cd ${GENESIS_FULL}
-ansible-playbook -i hosts lxc-create.yml -K && ansible-playbook -i hosts install.yml -K
+
+sed -i /sources.list/s/^/#/ os_images/config/ubuntu-16.04.1-server-ppc64el.seed
+
+source ${SETUP_ENV_LOC}
+cd playbooks
+export ANSIBLE_HOST_KEY_CHECKING=False
+
 ansible-playbook -i hosts lxc-create.yml -K && ansible-playbook -i hosts install.yml -K
 
-ansible-playbook -i $DYNAMIC_INVENTORY $PLAYBOOK_LOC -u --private=~/.ssh/id_rsa_ansible-generated
+# wait 15 minutes for install to complete.
+sleep 15m
+cd ../../
+ansible-playbook -i $DYNAMIC_INVENTORY $PLAYBOOK_LOC -u root --private=~/.ssh/id_rsa_ansible-generated
 echo $DYNAMIC_INVENTORY
 fi
 fi

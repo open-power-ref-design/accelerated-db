@@ -7,26 +7,42 @@ GENESIS_FULL=$(pwd)/$GENESIS_LOCAL
 ACCEL_DB_HOME=$(pwd)
 DKMS_LOCATION="http://mirrors.kernel.org/ubuntu/pool/main/d/dkms/dkms_2.2.0.3-2ubuntu11_all.deb"
 CUDA_REPO="https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/cuda-repo-ubuntu1604-8-0-local_8.0.44-1_ppc64el-deb"
-PACKAGE_DIR="packages"
+PACKAGE_DIR="playbooks/packages"
 DYNAMIC_INVENTORY=$GENESIS_FULL/"scripts/python/yggdrasil/inventory.py"
 ACTIVATE_FILE=".accel-activate"
+CUDA_FILE=${PACKAGE_DIR}/cuda8.deb
+DKMS_FILE=${PACKAGE_DIR}/dkms.deb
 #sudo apt-get install aptitude
 
 ./setup_git_repo.sh "${GENESIS_REMOTE}" "${GENESIS_LOCAL}" "${GENESIS_COMMIT}"
 
+sed -i /sources.list/s/^/#/ ${GENESIS_LOCAL}/os_images/config/*.seed
 
 mkdir -p ${PACKAGE_DIR}
 
-cd ${PACKAGE_DIR}
 
 #Download Cuda Repo
-wget  ${CUDA_REPO} -O cuda8.deb
-wget ${DKMS_LOCATION} -O dkms.deb
+if [ ! -f ${CUDA_FILE} ];
+then
+        echo "Downloading Cuda repository"
+	wget  ${CUDA_REPO} -O ${CUDA_FILE}
+else
+	echo "SKIPPING: Cuda repo already downloaded"
+fi
+if [ ! -f ${DKMS_FILE} ];
+then
+        echo "Downloading dkms package"
+	wget  ${DKMS_LOCATION} -O ${DKMS_FILE}
+else
+	echo "SKIPPING: dkms package already downloaded"
+fi
 
-cd ..
+
 
 #call cluster genesis install script
-#cluster-genesis/install.sh
+cd ${GENESIS_LOCAL}
+scripts/install.sh
+cd ..
 export DYNAMIC_INVENTORY
 echo "DYNAMIC " $DYNAMIC_INVENTORY
 #
