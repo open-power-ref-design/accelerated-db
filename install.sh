@@ -1,20 +1,32 @@
 
 GENESIS_REMOTE="https://github.com/open-power-ref-design/cluster-genesis.git"
 GENESIS_LOCAL="cluster-genesis"
-GENESIS_COMMIT="730985b4dce2f3fee94938651d67f90df387b9c9" # I.e. "3.2"
+GENESIS_COMMIT="abb759d31990162125c05f3aa1037eb7ff2069b7" #master
 GENESIS_VERSION="0.9"
 GENESIS_FULL=$(pwd)/$GENESIS_LOCAL
+
 ACCEL_DB_HOME=$(pwd)
+
 DKMS_LOCATION="http://mirrors.kernel.org/ubuntu/pool/main/d/dkms/dkms_2.2.0.3-2ubuntu11_all.deb"
+
 CUDA_REPO="https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/cuda-repo-ubuntu1604-8-0-local_8.0.44-1_ppc64el-deb"
+
 PACKAGE_DIR="playbooks/packages"
+
 DYNAMIC_INVENTORY=$GENESIS_FULL/"scripts/python/yggdrasil/inventory.py"
+
 ACTIVATE_FILE=".accel-activate"
+
 CUDA_FILE=${PACKAGE_DIR}/cuda8.deb
 DKMS_FILE=${PACKAGE_DIR}/dkms.deb
+
 #sudo apt-get install aptitude
 
+#pull cluster-genesis into project directory
 ./setup_git_repo.sh "${GENESIS_REMOTE}" "${GENESIS_LOCAL}" "${GENESIS_COMMIT}"
+
+#apply any patches to genesis.
+./patch_source.sh "${GENESIS_LOCAL}"
 
 sed -i /sources.list/s/^/#/ ${GENESIS_LOCAL}/os_images/config/*.seed
 

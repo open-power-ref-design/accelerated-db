@@ -1,0 +1,25 @@
+From bc7ee56a328ae03dbc53d672485a31939de63e94 Mon Sep 17 00:00:00 2001
+From: Douglas Lehr <dllehr@us.ibm.com>
+Date: Fri, 13 Jan 2017 16:03:44 -0600
+Subject: [PATCH] Don't pass rsa keys when performing switch auth
+
+---
+ scripts/python/mellanox_switch.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/python/mellanox_switch.py b/scripts/python/mellanox_switch.py
+index 772484a..5d74fae 100644
+--- a/scripts/python/mellanox_switch.py
++++ b/scripts/python/mellanox_switch.py
+@@ -78,7 +78,7 @@ class MellanoxSwitch(object):
+         s = paramiko.SSHClient()
+         s.load_system_host_keys()
+         s.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+-        s.connect(ip, self.SWITCH_PORT, userid, pwd)
++        s.connect(ip, self.SWITCH_PORT, userid, pwd, look_for_keys=False)
+         stdin, stdout, stderr = s.exec_command(
+             self.ENABLE_REMOTE_CONFIG % (cmd))
+         output = stdout.read()
+-- 
+2.7.4
+
