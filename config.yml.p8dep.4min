@@ -49,6 +49,10 @@ networks:
         broadcast: 10.0.0.255
         method: static
         eth-port: eth11
+    mgmt-pxe:
+        description: Management Network
+        method: dhcp
+        eth-port: eth15
 node-templates:
     controller2:
         hostname: min
@@ -90,4 +94,4 @@ node-templates:
         networks:
             - external
             - interconnect
-
+            - mgmt-pxe

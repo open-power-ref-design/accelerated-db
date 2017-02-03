@@ -1,7 +1,8 @@
 
+set -e
 GENESIS_REMOTE="https://github.com/open-power-ref-design/cluster-genesis.git"
 GENESIS_LOCAL="cluster-genesis"
-GENESIS_COMMIT="abb759d31990162125c05f3aa1037eb7ff2069b7" #master
+GENESIS_COMMIT="607c6fab16822ed32cf3dc92e1781ac9faec50cb" #release v1.0
 GENESIS_VERSION="0.9"
 GENESIS_FULL=$(pwd)/$GENESIS_LOCAL
 
