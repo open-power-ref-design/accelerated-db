@@ -8,6 +8,8 @@
 # copy reference cuda repository from local machine over to target nodes
   copy: src="{{ reference_architecture['gpudb_nvidia_playbook']['cuda_deb'] }}" dest="/tmp/nvidia.deb"
 
+- name: apt-get update
+  shell: "apt-get update"
 - name: install dkms prereqs
   shell: "apt-get install -y make build-essential dpkg-dev patch gcc"
 

@@ -1,10 +1,38 @@
+# Copyright 2016 IBM Corp.
+#
+# All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 set -e
-GENESIS_REMOTE="https://github.com/open-power-ref-design/cluster-genesis.git"
+#
+#Cluster Genesis repository 
+#
+GENESIS_REMOTE="https://github.com/open-power-ref-design-toolkit/cluster-genesis.git"
 GENESIS_LOCAL="cluster-genesis"
-GENESIS_COMMIT="607c6fab16822ed32cf3dc92e1781ac9faec50cb" #release v1.0
-GENESIS_VERSION="0.9"
+GENESIS_COMMIT="582332e310170d1317edb5bf82b81d21b0628d4f"
+GENESIS_VERSION="release-1.2"
 GENESIS_FULL=$(pwd)/$GENESIS_LOCAL
+
+#
+#Operations Manager repository 
+#
+OPSMGR_REMOTE="https://github.com/open-power-ref-design-toolkit/opsmgr.git"
+OPSMGR_LOCAL="opsmgr"
+OPSMGR_COMMIT="f7449bc318325914b52a0624bfb7f01acd408f90" 
+OPSMGR_VERSION="branch-v3"
+OPSMGR_FULL=$(pwd)/$OPSMGR_LOCAL
+
 
 ACCEL_DB_HOME=$(pwd)
 
@@ -21,18 +49,16 @@ ACTIVATE_FILE=".accel-activate"
 CUDA_FILE=${PACKAGE_DIR}/cuda8.deb
 DKMS_FILE=${PACKAGE_DIR}/dkms.deb
 
-#sudo apt-get install aptitude
-
 #pull cluster-genesis into project directory
 ./setup_git_repo.sh "${GENESIS_REMOTE}" "${GENESIS_LOCAL}" "${GENESIS_COMMIT}"
+
+#pull OpsMgr into project directory
+./setup_git_repo.sh "${OPSMGR_REMOTE}" "${OPSMGR_LOCAL}" "${OPSMGR_COMMIT}"
 
 #apply any patches to genesis.
 ./patch_source.sh "${GENESIS_LOCAL}"
 
-sed -i /sources.list/s/^/#/ ${GENESIS_LOCAL}/os_images/config/*.seed
-
 mkdir -p ${PACKAGE_DIR}
-
 
 #Download Cuda Repo
 if [ ! -f ${CUDA_FILE} ];
@@ -67,3 +93,4 @@ echo "DYNAMIC " $DYNAMIC_INVENTORY
 echo 'DYNAMIC_INVENTORY='$DYNAMIC_INVENTORY > ${ACTIVATE_FILE}
 echo 'GENESIS_FULL='$GENESIS_FULL >> ${ACTIVATE_FILE}
 echo 'ACCEL_DB_HOME='$ACCEL_DB_HOME >> ${ACTIVATE_FILE}
+echo 'OPSMGR_FULL='$OPSMGR_FULL >> ${ACTIVATE_FILE}
