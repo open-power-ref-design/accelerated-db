@@ -6,11 +6,11 @@ This repository is a comprehensive set of instructions, rules, and automation to
 ## Supported Hardware Configurations
 - **Minimum configuration - Four Minsky Cluster**
     - Four IBM POWER S822LC with Tesla p100 GPUs.
-    - See BOM (in https://github.ibm.com/open-power-solution-genesis/accelerated-db/tree/v1.0/docs ) for details.
+    - See BOM (in https://github.com/open-power-ref-design/accelerated-db/blob/master/docs/Accelerated%20Database%20Deployment%20BOM.pdf ) for details.
 
 - **Maximim configuration - Sixteen Minsky Cluster**
     - Sixteen IBM POWER S822LC with Tesla p100 GPUs
-    - See BOM (in https://github.ibm.com/open-power-solution-genesis/accelerated-db/tree/v1.0/docs ) for details.
+    - See BOM (in https://github.com/open-power-ref-design/accelerated-db/blob/master/docs/Accelerated%20Database%20Deployment%20BOM.pdf ) for details.
 
 ## Configure Network Bridge
 Create a network bridge named "br0" with port connected to management network (192.168.3.0/24).
@@ -25,7 +25,7 @@ Below is an example interface defined in the local "/etc/network/interfaces" fil
 
 
 ## Installation Instructions
-1. Run `git clone https://github.ibm.com/open-power-solution-genesis/accelerated-db.git`
+1. Run `git clone https://github.com/open-power-ref-design/accelerated-db.git`
 2. Run `install.sh`
 3. Build/edit the config.yml file using one of the templates provided to fit desired configuration.
 4. Run `deploy.sh accel-db.4compute.config.yml` to initiate deployment on example within documentation or substitute config.yml built/edited on step 3. 
