@@ -20,6 +20,11 @@ reference-architecture:
         cuda_deb: "packages/cuda8.deb"
         driver_level: "nvidia-361"
         dkms_deb: "packages/dkms.deb"
+    upstream_packages:
+        all:
+            - screen
+        controller2:
+            - openjdk-8
 
 deployer-gateway: true  # deployer will be configured as the default gateway for all client nodes
 ipaddr-mgmt-network: 192.168.3.0/24

@@ -1,0 +1,23 @@
+---
+# Copyright 2016, IBM US, Inc.
+#
+# install packages
+#
+
+- name: "Update Apt Cache"
+  apt:
+    update_cache: yes
+  become: yes
+  become_method: sudo
+
+- name: "Install Packages"
+  apt:
+    name: "{{ item }}"
+  when: "groups.{{ item }} is defined and inventory_hostname in groups.{{ item }}"
+  with_items: "{{ reference-architecture[upstream_packages].keys() }}"
+  register: command_result
+  become: yes
+  become_method: sudo
+
+
+...
