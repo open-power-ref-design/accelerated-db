@@ -1,0 +1,12 @@
+---
+# Copyright 2016, IBM US, Inc.
+#
+# xorg workaround
+#
+
+- name: systemctl set-default
+  shell: "systemctl set-default multi-user"
+  become: yes
+  become_method: sudo
+
+...

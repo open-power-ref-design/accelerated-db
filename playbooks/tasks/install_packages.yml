@@ -12,12 +12,10 @@
 
 - name: "Install Packages"
   apt:
-    name: "{{ item }}"
-  when: "groups.{{ item }} is defined and inventory_hostname in groups.{{ item }}"
-  with_items: "{{ reference-architecture[upstream_packages].keys() }}"
+    name: "{{ reference_architecture.upstream_packages[item] }}"
+  when: groups.{{ item }} is defined and inventory_hostname in groups.{{ item }}
+  with_items: "{{ reference_architecture.upstream_packages.keys() }}"
   register: command_result
   become: yes
   become_method: sudo
-
-
 ...
