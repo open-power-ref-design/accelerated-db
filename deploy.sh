@@ -47,9 +47,8 @@ ansible-playbook -i $DYNAMIC_INVENTORY gather_mac_addresses.yml
 ansible-playbook -i $DYNAMIC_INVENTORY configure_operating_systems.yml
 
 #Deployer as a router
+#####USING DEPLOYER GATEWAY IN CONFIG FILE
 cd ../../
-ssh -i ~/.ssh/id_rsa_ansible-generated deployer@192.168.3.2 'sudo apt-get update && sudo apt-get install -y iptables'
-ssh -i ~/.ssh/id_rsa_ansible-generated deployer@192.168.3.2 'sudo bash -s' < nat.sh
 
 #Nvidia driver install
 ansible-playbook -i $DYNAMIC_INVENTORY $PLAYBOOK_LOC

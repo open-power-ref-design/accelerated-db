@@ -21,6 +21,7 @@ reference-architecture:
         driver_level: "nvidia-361"
         dkms_deb: "packages/dkms.deb"
 
+deployer-gateway: true  # deployer will be configured as the default gateway for all client nodes
 ipaddr-mgmt-network: 192.168.3.0/24
 ipaddr-mgmt-switch:
     rack1: 192.168.3.5
@@ -49,6 +50,7 @@ networks:
         broadcast: 10.0.0.255
         method: static
         eth-port: eth11
+	vlan: 210
     mgmt-pxe:
         description: Management Network
         method: dhcp

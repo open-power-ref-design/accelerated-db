@@ -20,8 +20,8 @@ set -e
 #
 GENESIS_REMOTE="https://github.com/open-power-ref-design-toolkit/cluster-genesis.git"
 GENESIS_LOCAL="cluster-genesis"
-GENESIS_COMMIT="582332e310170d1317edb5bf82b81d21b0628d4f"
-GENESIS_VERSION="release-1.2"
+GENESIS_COMMIT="9bba99dd6dba8a49c96870d311bbbb400e8906f2"
+GENESIS_VERSION="release-1.3"
 GENESIS_FULL=$(pwd)/$GENESIS_LOCAL
 
 #
@@ -29,7 +29,7 @@ GENESIS_FULL=$(pwd)/$GENESIS_LOCAL
 #
 OPSMGR_REMOTE="https://github.com/open-power-ref-design-toolkit/opsmgr.git"
 OPSMGR_LOCAL="opsmgr"
-OPSMGR_COMMIT="f7449bc318325914b52a0624bfb7f01acd408f90" 
+OPSMGR_COMMIT="054505c871488d95a94096d67928c8b655123a12"
 OPSMGR_VERSION="branch-v3"
 OPSMGR_FULL=$(pwd)/$OPSMGR_LOCAL
 
@@ -42,7 +42,7 @@ CUDA_REPO="https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/c
 
 PACKAGE_DIR="playbooks/packages"
 
-DYNAMIC_INVENTORY=$GENESIS_FULL/"scripts/python/yggdrasil/inventory.py"
+DYNAMIC_INVENTORY=$GENESIS_FULL/"playbooks/inventory.py"
 
 ACTIVATE_FILE=".accel-activate"
 
