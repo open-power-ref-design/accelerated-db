@@ -1,0 +1,32 @@
+---
+# Copyright 2016, IBM US, Inc.
+#
+# install packages
+#
+- name: "Add Servers to Custom apt lists"
+  lineinfile:
+    dest: /etc/apt/sources.list.d/{{ item.0.name }}
+    insertafter: EOF
+    create: yes
+    line: "{{ item.1 }}"
+  when: item.0.name != "sources.list"
+  with_subelements:
+    - "{{ reference_architecture.upstream_packages.repos }}"
+    - servers
+  become: yes
+  become_method: sudo
+
+- name: "Add Servers to sources.list"
+  lineinfile:
+    dest: /etc/apt/sources.list
+    insertafter: EOF
+    create: yes
+    line: "{{ item.1 }}"
+  when: item.0.name == "sources.list"
+  with_subelements:
+    - "{{ reference_architecture.upstream_packages.repos }}"
+    - servers
+  become: yes
+  become_method: sudo
+
+...

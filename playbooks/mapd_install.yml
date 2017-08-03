@@ -2,17 +2,25 @@
 # Copyright 2016, IBM US, Inc.
 #
 # mapd playbook: install xorg, and perform workaround.
-# install java, as well libldap, then move on to 
+# install java, as well libldap, then move on to
 # installing nvidia driver
 #
 - name: Gather facts from localhost
   hosts: localhost
   gather_facts: yes
 
+- name: Setup additional Repos
+  hosts: all
+  tasks:
+    - include: tasks/setup_repos.yml
+      when: reference_architecture.upstream_packages.repos is defined
+  become: true
+
 - name: Install listed packages in config file
   hosts: all
   tasks:
     - include: tasks/install_packages.yml
+      when: reference_architecture.upstream_packagess is defined
   become: true
 
 - name: Xorg Workaround
