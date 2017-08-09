@@ -20,7 +20,7 @@
   hosts: all
   tasks:
     - include: tasks/install_packages.yml
-      when: reference_architecture.upstream_packagess is defined
+      when: reference_architecture.upstream_packages is defined
   become: true
 
 - name: Xorg Workaround
