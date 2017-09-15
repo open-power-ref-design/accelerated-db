@@ -1,0 +1,46 @@
+---
+# Copyright 2016, IBM US, Inc.
+#
+# xorg workaround
+#
+
+#- name: systemctl set-default
+#  shell: "systemctl set-default multi-user"
+#  become: yes
+#  become_method: sudo
+#- name: Create mapd user
+#  user: 
+#    name: mapd
+#    comment: "mapd default user" 
+
+#- name: Create /opt/mapd directory
+#  file: 
+#    path: /opt/mapd
+#    state: directory
+#    owner: mapd
+- name: setup LD_LIBRARY_PATH
+  blockinfile:
+    path: /etc/profile.d/java.sh
+    block: "export LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/ppc64le/server"
+    create: yes
+
+- name: Unpack MapD Enterprise
+  unarchive:
+    src: "{{ reference_architecture['mapd_deploy']['mapd_install_file'] }}"
+    dest: /opt/
+    owner: ubuntu
+
+- name: Rename Enterprise package
+  shell: mv /opt/mapd* /opt/mapd
+
+- name: Rename Enterprise package
+  file:
+    path: /opt/mapd
+    owner: ubuntu
+    group: ubuntu
+
+- name: Execute mapd_setup.sh script
+  script: scripts/setup_mapd.sh
+  become: yes
+  become_method: sudo 
+...

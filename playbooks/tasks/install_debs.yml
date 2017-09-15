@@ -1,0 +1,29 @@
+---
+# Copyright 2016, IBM US, Inc.
+#
+# install packages
+#
+
+- name: "umms"
+  debug:
+    msg: "SYSTEM {{ item }} {{ reference_architecture.deb_packages[item] | basename }}"
+  with_items:
+    - "{{ reference_architecture.deb_packages.keys() }}"
+
+- name: "Copy debs"
+  copy:
+    src: "{{ item.package }}"
+    dest: "/tmp/{{ item.package | basename }}"
+  when: groups.{{ item }} is defined and inventory_hostname in groups.{{ item }}
+  with_items: "{{ reference_architecture.deb_packages.keys() }}"
+
+- name: "Install Deb Packages"
+  apt:
+    deb: "/tmp/{{ reference_architecture.deb_packages[item] | basename}}"
+  when: groups.{{ item }} is defined and inventory_hostname in groups.{{ item }}
+  with_items: "{{ reference_architecture.deb_packages.keys() }}"
+  register: command_result
+  become: yes
+  become_method: sudo
+
+...

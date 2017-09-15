@@ -15,23 +15,42 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 reference-architecture:
-    gpudb_nvidia_playbook:
-        description: playbook for installing nvidia for gpudb
+    mapd_deploy:
+#        mapd_install_file: "packages/mapd-ee-3.1.0-20170615-b95a40e-Linux-ppc64le-render-glx.tar.gz"
+        mapd_install_file: "packages/mapd.tar.gz"
+        MAPD_STORAGE: "/var/lib/mapd"
+        MAPD_USER: "mapd"
+        MAPD_PATH: "/opt/mapd"
+        
+    nvidia_playbook:
+        description: playbook for installing Nvidia CUDA toolkit
         cuda_deb: "packages/cuda8.deb"
-        driver_level: "nvidia-361"
-        dkms_deb: "packages/dkms.deb"
+#        dkms_deb: "packages/dkms.deb"
+#    deb_packages:
+#        all: 
+#            - "packages/dkms.deb"
+#            - "packages/cuda8.deb"
+####        controller1:
+####            - vim
+
     upstream_packages:
         all:
             - openjdk-8-jre
             - libldap-2.4-2
             - xserver-xorg
             - libglu1-mesa
+            - default-jre-headless
+            - dkms
 ####        controller1:
 ####            - vim
 ####        controller2:
 ####            - openjdk-8-jdk
 ####            - screen
-#        repos: 
+#        repos_local
+#            - name: cuda_repo
+#              repo_package: "packages/cuda8.deb"
+#
+#        repos_network: 
 #            - name: sources.list
 #              servers:
 #              - "deb testing sources.list"
@@ -57,6 +76,9 @@ networks:
     external:
         description: Organization site or external network
         addr: 9.3.3.0/24
+        available-ips:
+            - 9.3.3.18 9.3.3.20  #address range
+            - 9.3.3.38  #single address
         broadcast: 9.3.3.255
         gateway: 9.3.3.1
         dns-nameservers: 9.3.1.200
@@ -75,10 +97,12 @@ networks:
         eth-port: eth15
 node-templates:
     controller2:
+        test_junk:
+        - test1
         hostname: min
         userid-ipmi: ADMIN
         password-ipmi: admin
-        cobbler-profile: ubuntu-16.04.1-server-ppc64el
+        cobbler-profile: ubuntu-16.04.3-server-ppc64el
         os-disk: 
             - /dev/sdj
             - /dev/sdi

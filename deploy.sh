@@ -17,17 +17,17 @@
 #execute deployer
 set -e
 ACTIVATE_FILE=".accel-activate"
-PLAYBOOK_LOC="playbooks/nvidia_driver.yml"
-#### NEED PROMPTS REMOVED WORKAROUND BELOW
-####SETUP_ENV_LOC="scripts/setup-env"
+PLAYBOOK_LOC="playbooks/mapd_install.yml"
 SETUP_ENV_LOC="deployenv/bin/activate"
 if [ ! -f $ACTIVATE_FILE ];
 then
 	echo "ERROR: CAN'T FIND ACTIVATE FILE.  DID YOU RUN install.sh FIRST?"
-else
+        exit 1
+fi
 if [ -z "$1" ]; then
 	echo "ERROR: Please pass in config file"
-else
+        exit 1
+fi
 source ${ACTIVATE_FILE}
 cp $1 ${GENESIS_FULL}/config.yml
 cd ${GENESIS_FULL}
@@ -46,23 +46,22 @@ ansible-playbook -i $DYNAMIC_INVENTORY ssh_keyscan.yml
 ansible-playbook -i $DYNAMIC_INVENTORY gather_mac_addresses.yml 
 ansible-playbook -i $DYNAMIC_INVENTORY configure_operating_systems.yml
 
-#Deployer as a router
-#####USING DEPLOYER GATEWAY IN CONFIG FILE
 cd ../../
 
 #Nvidia driver install
 ansible-playbook -i $DYNAMIC_INVENTORY $PLAYBOOK_LOC
 echo $DYNAMIC_INVENTORY
 
-#Install OpsMgr
-cd ${OPSMGR_FULL}/recipes/standalone
-sudo ./clean-opsmgr.sh
-sudo ./clean-prereq.sh
-sudo ./bootstrap-prereq.sh
-sudo ./bootstrap-opsmgr.sh
-sudo ./provision-prereq.sh
-sudo ./provision-opsmgr.sh
-
+#Checking for OPSMGR toggle 
+if [ ! -z $OPSMGR_DISABLED ]; then
+        echo "OpsMgr disabled"
+else
+        echo "Install OpsMgr"
+        cd ${OPSMGR_FULL}/recipes/standalone
+        sudo ./clean-opsmgr.sh
+        sudo ./clean-prereq.sh
+        sudo ./bootstrap-prereq.sh
+        sudo ./bootstrap-opsmgr.sh
+        sudo ./provision-prereq.sh
+        sudo ./provision-opsmgr.sh
 fi
-fi
-

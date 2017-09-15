@@ -11,7 +11,7 @@
     line: "{{ item.1 }}"
   when: item.0.name != "sources.list"
   with_subelements:
-    - "{{ reference_architecture.upstream_packages.repos }}"
+    - "{{ reference_architecture.upstream_packages.repos.non_local }}"
     - servers
   become: yes
   become_method: sudo
@@ -24,7 +24,7 @@
     line: "{{ item.1 }}"
   when: item.0.name == "sources.list"
   with_subelements:
-    - "{{ reference_architecture.upstream_packages.repos }}"
+    - "{{ reference_architecture.upstream_packages.repos.non_local }}"
     - servers
   become: yes
   become_method: sudo

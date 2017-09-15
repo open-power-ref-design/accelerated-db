@@ -12,8 +12,8 @@
 - name: Setup additional Repos
   hosts: all
   tasks:
-    - include: tasks/setup_repos.yml
-      when: reference_architecture.upstream_packages.repos is defined
+    - include: tasks/setup_repos_network.yml
+      when: reference_architecture.upstream_packages.repos_network is defined
   become: true
 
 - name: Install listed packages in config file
@@ -33,5 +33,11 @@
   hosts: all
   tasks:
     - include: tasks/install_nvidia.yml
+  become: true
+
+- name:  Install MapD
+  hosts: all
+  tasks:
+    - include: tasks/install_mapd.yml
   become: true
 

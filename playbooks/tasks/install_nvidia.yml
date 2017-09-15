@@ -1,25 +1,28 @@
 ---
 # Copyright 2016, IBM US, Inc.
 #
-#gpudb tasks:  
+#nvidia driver install tasks:  
 #
 
-- name: Copy cuda8 library to target machines
 # copy reference cuda repository from local machine over to target nodes
-  copy: src="{{ reference_architecture['gpudb_nvidia_playbook']['cuda_deb'] }}" dest="/tmp/nvidia.deb"
+- name: Copy cuda8 library to target machines
+  copy: src="{{ reference_architecture['nvidia_playbook']['cuda_deb'] }}" dest="/tmp/nvidia.deb"
 
-- name: apt-get update
-  shell: "apt-get update"
-- name: install dkms prereqs
-  shell: "apt-get install -y make build-essential dpkg-dev patch gcc"
+#- name: apt-get update
+#  shell: "apt-get update"
 
-- name: Copy dkms deb
-  copy: src="{{ reference_architecture['gpudb_nvidia_playbook']['dkms_deb'] }}" dest="/tmp/dkms.deb"
-#- debug: msg=" RESULT is {{ reference_architecture['gpudb_nvidia_playbook']['description'] }}"
+#- name: install dkms prereqs
+#  shell: "apt-get install -y make build-essential dpkg-dev patch gcc"
 
-# Use filename created in previous step and install.  This is the cuda repo
-- name: Install dkms
-  shell: dpkg -i /tmp/dkms.deb
+#- name: install dkms prereqs
+#  shell: "apt-get install -y dkms"
+
+#- name: Copy dkms deb
+#  copy: src="{{ reference_architecture['nvidia_playbook']['dkms_deb'] }}" dest="/tmp/dkms.deb"
+
+## Use filename created in previous step and install.  This is the cuda repo
+#- name: Install dkms
+#  shell: dpkg -i /tmp/dkms.deb
 
 #NOTE: We are not using apt due to bugs in ansible code causing 
 #apt-get update to fail
@@ -34,5 +37,5 @@
 
 #install nvidia kernel driver only, leave the rest of cuda alone.
 - name: install cuda driver
-  shell: "apt-get install -y {{ reference_architecture['gpudb_nvidia_playbook']['driver_level'] }} "
+  shell: "apt-get install -y cuda-drivers"
 ...

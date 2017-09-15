@@ -1,0 +1,28 @@
+---
+# Copyright 2016, IBM US, Inc.
+#
+# install packages
+#
+- name: "umms"
+  debug:
+    msg: "SYSTEM {{ item.repo_package }}"
+  with_items:
+    - "{{ reference_architecture.upstream_packages.repos.local }}"
+
+- name: "Copy deb repositories" 
+  copy: 
+    src: "{{ item.repo_package }}" 
+    dest: "/tmp/{{ item.repo_package | basename }}"
+  with_items:
+    - "{{ reference_architecture.upstream_packages.repos.local }}"
+#    - repo_package
+ 
+- name: "Install Local Repository via debian package"
+  apt: 
+    deb: "/tmp/{{ item.repo_package | basename }}"
+  with_items:
+    - "{{ reference_architecture.upstream_packages.repos.local }}"
+#    - repo_package
+  become: yes
+  become_method: sudo
+...
