@@ -26,7 +26,8 @@
 
 - name: Unpack MapD Enterprise
   unarchive:
-    src: "{{ reference_architecture['mapd_deploy']['mapd_install_file'] }}"
+#    src: "{{ reference_architecture['mapd_deploy']['mapd_install_file'] }}"
+    src: "packages/mapd.tar.gz"
     dest: /opt/
     owner: ubuntu
 

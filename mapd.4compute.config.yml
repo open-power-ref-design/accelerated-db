@@ -17,14 +17,17 @@
 reference-architecture:
     mapd_deploy:
 #        mapd_install_file: "packages/mapd-ee-3.1.0-20170615-b95a40e-Linux-ppc64le-render-glx.tar.gz"
-        mapd_install_file: "packages/mapd.tar.gz"
+#        mapd_install_file: "packages/mapd.tar.gz"
+        mapd_install_file: "/home/ubuntu/v12release/mapd-ee-3.1.0-20170615-b95a40e-Linux-ppc64le-render-glx.tar.gz"
         MAPD_STORAGE: "/var/lib/mapd"
         MAPD_USER: "mapd"
         MAPD_PATH: "/opt/mapd"
         
     nvidia_playbook:
         description: playbook for installing Nvidia CUDA toolkit
-        cuda_deb: "packages/cuda8.deb"
+#        cuda_location: "packages/cuda8.deb"  
+        cuda_location: "https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/cuda-repo-ubuntu1604-8-0-local_8.0.44-1_ppc64el-deb"
+
 #        dkms_deb: "packages/dkms.deb"
 #    deb_packages:
 #        all: 

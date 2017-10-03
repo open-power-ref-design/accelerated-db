@@ -24,7 +24,7 @@ systemctl enable mapd_server
 systemctl enable mapd_web_server
 
 #Pause to ensure servers are up
-sleep 5
+sleep 100
 echo $MAPD_PATH
 cd $MAPD_PATH
 $MAPD_PATH/insert_sample_data <<< 2

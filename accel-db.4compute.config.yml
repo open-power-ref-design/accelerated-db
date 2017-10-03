@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 reference-architecture:
-    gpudb_nvidia_playbook:
+    nvidia_playbook:
         description: playbook for installing nvidia for gpudb
         cuda_deb: "packages/cuda8.deb"
         driver_level: "nvidia-361"

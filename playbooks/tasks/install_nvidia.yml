@@ -6,7 +6,8 @@
 
 # copy reference cuda repository from local machine over to target nodes
 - name: Copy cuda8 library to target machines
-  copy: src="{{ reference_architecture['nvidia_playbook']['cuda_deb'] }}" dest="/tmp/nvidia.deb"
+#  copy: src="{{ reference_architecture['nvidia_playbook']['cuda_deb'] }}" dest="/tmp/nvidia.deb"
+  copy: src="packages/cuda.deb" dest="/tmp/nvidia.deb"
 
 #- name: apt-get update
 #  shell: "apt-get update"

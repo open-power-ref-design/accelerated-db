@@ -36,24 +36,13 @@ OPSMGR_COMMIT="054505c871488d95a94096d67928c8b655123a12"
 OPSMGR_VERSION="branch-v3"
 OPSMGR_FULL=$(pwd)/$OPSMGR_LOCAL
 
+
 # Recipe home is assumed to be the current working directory.
 ACCEL_DB_HOME=$(pwd)
 
-#Local location to store external packages used by recipe.
-PACKAGE_DIR="playbooks/packages"
-
-#DKMS_LOCATION="http://mirrors.kernel.org/ubuntu/pool/main/d/dkms/dkms_2.2.0.3-2ubuntu11_all.deb"
-#DKMS_FILE=${PACKAGE_DIR}/dkms.deb
-
-#External location of cuda repository to download.
-CUDA_REPO="https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/cuda-repo-ubuntu1604-8-0-local_8.0.44-1_ppc64el-deb"
-
-#local name to assign to cuda repository.
-CUDA_FILE=${PACKAGE_DIR}/cuda8.deb
-
 #Hidden file to store variables needed by install.sh
 ACTIVATE_FILE=".accel-activate"
-
+PACKAGE_DIR="playbooks/packages"
 #Make Local package directory.
 mkdir -p ${PACKAGE_DIR}
 
@@ -70,22 +59,6 @@ else
         ./setup_git_repo.sh "${OPSMGR_REMOTE}" "${OPSMGR_LOCAL}" "${OPSMGR_COMMIT}"
 fi
 
-#Download Cuda Repo
-if [ ! -f ${CUDA_FILE} ];
-then
-        echo "Downloading Cuda repository"
-	wget  ${CUDA_REPO} -O ${CUDA_FILE}
-else
-	echo "SKIPPING: Cuda repo already downloaded"
-fi
-
-#if [ ! -f ${DKMS_FILE} ];
-#then
-#        echo "Downloading dkms package"
-#	wget  ${DKMS_LOCATION} -O ${DKMS_FILE}
-#else
-#	echo "SKIPPING: dkms package already downloaded"
-#fi
 
 #Call cluster genesis install script
 cd ${GENESIS_LOCAL}

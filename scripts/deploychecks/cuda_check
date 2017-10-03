@@ -1,0 +1,83 @@
+#!/usr/bin/env python
+#copy inventory file form ubuntu@wmdepos to local machine as (/var/oprc/inventory.yml)
+
+#to sanity check
+#cd /home/ubuntu/dashDBlocal-Mini/cluster-genesis/playbooks
+#./inventory.py --list 
+
+# edit /var/oprc/inventory.yml to add your specific information
+
+#create test.py file
+#make sure you include 
+import yaml
+import sys
+import os.path
+import os
+import re
+
+from orderedattrdict.yamlutils import AttrDictYAMLLoader
+from orderedattrdict import AttrDict
+from shutil import copyfile
+from urllib import urlretrieve
+
+CUDA_REPO_DEST='/playbooks/packages/cuda.deb'
+CUDA_REPO_FILE_VAR='cuda_location'
+CUDA_KEY='nvidia_playbook'
+
+def log(message):
+    print("cuda_check: " + message)
+
+def file_exist(config_file):
+	return os.path.isfile(config_file)
+
+# to load a yaml file 
+def _load_inv_file(inv_file):
+    try:
+        return yaml.load(open(inv_file), Loader=AttrDictYAMLLoader)
+    except:
+        log('Could not load file: ' + inv_file)
+        sys.exit(1)
+
+def check_for_cuda_repo(config_yml):
+    cuda_repo = config_yml[CUDA_REPO_FILE_VAR]
+
+    if(file_exist(os.environ['PWD']+CUDA_REPO_DEST)):
+        log("cuda library already found locally")
+        return 0
+
+    if(re.search("^https", cuda_repo)):
+        log("Downloading cuda library from " + cuda_repo)
+        filename, headers = urlretrieve(cuda_repo, os.environ['PWD']+CUDA_REPO_DEST)
+    else:
+        if (not file_exist(cuda_repo)):
+            return 1
+        log("Copying " + cuda_repo + " to " + os.environ['PWD']+CUDA_REPO_DEST)
+        copyfile( cuda_repo, os.environ['PWD']+CUDA_REPO_DEST)
+    return 0
+    
+    
+def main ():
+    config_file = sys.argv[1]
+    
+    if (not file_exist(config_file)):
+        log("ERROR: Config file cannot be found")
+        exit(1)
+
+#    print("Loading config file " + config_file)
+    conf_yml = _load_inv_file(config_file)
+
+#Checking if mapd_deploy keyword specified.  Indicating that we need to 
+#perform further checks
+    if(CUDA_KEY not in conf_yml['reference-architecture']):
+        log("No cuda check needed...exiting")
+        exit(0)
+
+    cuda_vars = conf_yml['reference-architecture'][CUDA_KEY]
+
+    if(check_for_cuda_repo(cuda_vars) == 0):
+        log("cuda_check successful!!")
+    else:
+        log("cuda_check failed!!")
+
+if __name__ == '__main__':
+    main()

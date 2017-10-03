@@ -1,0 +1,74 @@
+#!/usr/bin/env python
+#copy inventory file form ubuntu@wmdepos to local machine as (/var/oprc/inventory.yml)
+
+#to sanity check
+#cd /home/ubuntu/dashDBlocal-Mini/cluster-genesis/playbooks
+#./inventory.py --list 
+
+# edit /var/oprc/inventory.yml to add your specific information
+
+#create test.py file
+#make sure you include 
+import yaml
+import sys
+import os.path
+import os
+
+from orderedattrdict.yamlutils import AttrDictYAMLLoader
+from orderedattrdict import AttrDict
+from shutil import copyfile
+
+MAPD_FILE_DEST='/playbooks/packages/mapd.tar.gz'
+MAPD_FILE_VAR='mapd_install_file'
+
+def log(message):
+    print("mapd_check: " + message)
+
+
+def file_exist(config_file):
+	return os.path.isfile(config_file)
+
+# to load a yaml file 
+def _load_inv_file(inv_file):
+    try:
+        return yaml.load(open(inv_file), Loader=AttrDictYAMLLoader)
+    except:
+        log('Could not load file: ' + inv_file)
+        sys.exit(1)
+
+def check_for_mapd_enterprise_file(config_yml):
+    mapd_file = config_yml[MAPD_FILE_VAR]
+
+    if (not file_exist(mapd_file)):
+        return 1
+
+    log("Copying " + mapd_file + " to " + os.environ['PWD']+MAPD_FILE_DEST)
+    copyfile( mapd_file, os.environ['PWD']+MAPD_FILE_DEST)
+    return 0
+    
+    
+def main ():
+    config_file = sys.argv[1]
+    
+    if (not file_exist(config_file)):
+        log("ERROR: Config file cannot be found")
+        exit(1)
+
+#    print("Loading config file " + config_file)
+    conf_yml = _load_inv_file(config_file)
+
+#Checking if mapd_deploy keyword specified.  Indicating that we need to 
+#perform further checks
+    if('mapd_deploy' not in conf_yml['reference-architecture']):
+        print("No mapd check needed...exiting")
+        exit(0)
+
+    log("mapd specified")
+    mapd_vars = conf_yml['reference-architecture']['mapd_deploy']
+    if(check_for_mapd_enterprise_file(mapd_vars) == 0):
+        log("mapd_check successful!!")
+    else:
+        log("mapd_check failed!!")
+
+if __name__ == '__main__':
+    main()

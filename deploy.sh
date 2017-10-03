@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #execute deployer
-set -e
+#set -e
 ACTIVATE_FILE=".accel-activate"
 PLAYBOOK_LOC="playbooks/mapd_install.yml"
 SETUP_ENV_LOC="deployenv/bin/activate"
@@ -24,11 +24,26 @@ then
 	echo "ERROR: CAN'T FIND ACTIVATE FILE.  DID YOU RUN install.sh FIRST?"
         exit 1
 fi
+
+#Make sure the config.yml file was passed in.
 if [ -z "$1" ]; then
 	echo "ERROR: Please pass in config file"
         exit 1
+elif [ ! -f "$1" ]; then
+	echo "ERROR : config file '${1}' does not exist"
 fi
+
+
+CONFIG_FILE=$(pwd)/$1
+#source the file created by install.sh to include environmental variables
 source ${ACTIVATE_FILE}
+
+#Check activation files
+scripts/checks $CONFIG_FILE
+if [[ $? -gt 0 ]]; then
+	echo "EXITING: At least one checks failed"
+fi
+
 cp $1 ${GENESIS_FULL}/config.yml
 cd ${GENESIS_FULL}
 

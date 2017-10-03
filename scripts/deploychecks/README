@@ -1,0 +1,7 @@
+CHECK FILES:
+  Each file ending in _check will be executed whenever deploy.sh is run.  This way we are able to ensure a config.yml file has all of the necessary pre-reqs fulfilled.  This comes in handy when a recipe repository has multiple configurations for a given deploy.
+
+  Check file requirements
+  - Expected to be executable, 
+  - The given input will be a config file in yaml format.
+  - Each check is expected to look and see if it's needed.  If not, exit immediately
