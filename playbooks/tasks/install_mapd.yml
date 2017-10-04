@@ -18,27 +18,23 @@
 #    path: /opt/mapd
 #    state: directory
 #    owner: mapd
-- name: setup LD_LIBRARY_PATH
-  blockinfile:
-    path: /etc/profile.d/java.sh
-    block: "export LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/ppc64le/server"
-    create: yes
 
-- name: Unpack MapD Enterprise
-  unarchive:
-#    src: "{{ reference_architecture['mapd_deploy']['mapd_install_file'] }}"
-    src: "packages/mapd.tar.gz"
-    dest: /opt/
-    owner: ubuntu
 
-- name: Rename Enterprise package
-  shell: mv /opt/mapd* /opt/mapd
+# copy reference cuda repository from local machine over to target nodes
+- name: Copy mapd apt list file
+  copy: src="mapd.list" dest="/etc/apt/sources.list.d/mapd.list"
+  become: yes
+  become_method: sudo 
 
-- name: Rename Enterprise package
-  file:
-    path: /opt/mapd
-    owner: ubuntu
-    group: ubuntu
+- name: Pull mapd gpg key
+  shell: "curl https://releases.mapd.com/GPG-KEY-mapd | sudo apt-key add -"
+  become: yes
+  become_method: sudo
+ 
+- name: Update repositories cache and install "mapd" package
+  apt:
+    name: mapd
+    update_cache: yes
 
 - name: Execute mapd_setup.sh script
   script: scripts/setup_mapd.sh

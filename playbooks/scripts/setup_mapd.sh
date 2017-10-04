@@ -1,18 +1,12 @@
 #!/bin/bash
-export LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/ppc64le/server
-export MAPD_LIBJVM_DIR=/usr/lib/jvm/default-java/jre/lib/ppc64le/server
 export MAPD_STORAGE=/var/lib/mapd
 export MAPD_USER=ubuntu
 export MAPD_PATH=/opt/mapd
 
-#May have to run twice
-nvidia-xconfig --use-display-device=none --enable-all-gpus --preserve-busid
-nvidia-xconfig --use-display-device=none --enable-all-gpus --preserve-busid
-
-sudo mkdir -p $MAPD_STORAGE/data
-sudo chown -R $MAPD_USER $MAPD_STORAGE
-
-$MAPD_PATH/bin/initdb $MAPD_STORAGE/data
+echo "export MAPD_USER=mapd
+export MAPD_GROUP=mapd
+export MAPD_STORAGE=/var/lib/mapd
+export MAPD_PATH=/opt/mapd" >> /home/$MAPD_USER/.bashrc
 
 cd $MAPD_PATH/systemd
 echo -e "\n" | ./install_mapd_systemd.sh 

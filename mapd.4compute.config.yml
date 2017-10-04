@@ -16,25 +16,12 @@
 # limitations under the License.
 reference-architecture:
     mapd_deploy:
-#        mapd_install_file: "packages/mapd-ee-3.1.0-20170615-b95a40e-Linux-ppc64le-render-glx.tar.gz"
-#        mapd_install_file: "packages/mapd.tar.gz"
-        mapd_install_file: "/home/ubuntu/v12release/mapd-ee-3.1.0-20170615-b95a40e-Linux-ppc64le-render-glx.tar.gz"
         MAPD_STORAGE: "/var/lib/mapd"
-        MAPD_USER: "mapd"
         MAPD_PATH: "/opt/mapd"
         
     nvidia_playbook:
         description: playbook for installing Nvidia CUDA toolkit
-#        cuda_location: "packages/cuda8.deb"  
         cuda_location: "https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/cuda-repo-ubuntu1604-8-0-local_8.0.44-1_ppc64el-deb"
-
-#        dkms_deb: "packages/dkms.deb"
-#    deb_packages:
-#        all: 
-#            - "packages/dkms.deb"
-#            - "packages/cuda8.deb"
-####        controller1:
-####            - vim
 
     upstream_packages:
         all:
@@ -44,23 +31,8 @@ reference-architecture:
             - libglu1-mesa
             - default-jre-headless
             - dkms
-####        controller1:
-####            - vim
-####        controller2:
-####            - openjdk-8-jdk
-####            - screen
-#        repos_local
-#            - name: cuda_repo
-#              repo_package: "packages/cuda8.deb"
-#
-#        repos_network: 
-#            - name: sources.list
-#              servers:
-#              - "deb testing sources.list"
-#
-#            - name: samples.list
-#              servers: 
-#              - "deb http://us.ports.ubuntu.com/ubuntu-ports/ xenial-backports main restricted universe multiverse"
+            - curl
+            - apt-transport-https
 
 deployer-gateway: true  # deployer will be configured as the default gateway for all client nodes
 ipaddr-mgmt-network: 192.168.3.0/24

@@ -13,13 +13,20 @@ import yaml
 import sys
 import os.path
 import os
-
+import urllib2
+import requests
 from orderedattrdict.yamlutils import AttrDictYAMLLoader
 from orderedattrdict import AttrDict
 from shutil import copyfile
+from requests.auth import HTTPBasicAuth
 
 MAPD_FILE_DEST='/playbooks/packages/mapd.tar.gz'
 MAPD_FILE_VAR='mapd_install_file'
+MAPD_URL_TOP="https://releases.mapd.com/"
+MAPD_URL="https://releases.mapd.com/ee/mapd-ee-cuda.list"
+MAPD_FILE="playbooks/mapd.list"
+MAPD_USER="MAPD_USER"
+MAPD_PASS="MAPD_PASS"
 
 def log(message):
     print("mapd_check: " + message)
@@ -35,6 +42,16 @@ def _load_inv_file(inv_file):
     except:
         log('Could not load file: ' + inv_file)
         sys.exit(1)
+def check_for_username_and_password():
+    fail = 0
+    if (MAPD_USER not in os.environ):
+        print("ERROR: " + MAPD_USER + " is not defined")
+        fail = 1
+    if (MAPD_PASS not in os.environ):
+        print("ERROR: " + MAPD_PASS + " is not defined")
+        fail = 1
+
+    return fail
 
 def check_for_mapd_enterprise_file(config_yml):
     mapd_file = config_yml[MAPD_FILE_VAR]
@@ -46,6 +63,19 @@ def check_for_mapd_enterprise_file(config_yml):
     copyfile( mapd_file, os.environ['PWD']+MAPD_FILE_DEST)
     return 0
     
+def pull_mapd_list(user, password):
+    print ("pull_mapd_list")
+    print (user)
+    print (password)
+    r = requests.get(MAPD_URL, auth=HTTPBasicAuth(user, password))
+    sources=r.text
+    sources = sources.replace('user', user)
+    sources = sources.replace('pass', password)
+    print(sources)
+    f = open(MAPD_FILE, 'w')
+    f.write(sources)
+    f.close()
+
     
 def main ():
     config_file = sys.argv[1]
@@ -64,11 +94,13 @@ def main ():
         exit(0)
 
     log("mapd specified")
+    if(check_for_username_and_password()):
+        print("WE FAILED")
+        exit(1)
+    username = os.environ['MAPD_USER']
+    password = os.environ['MAPD_PASS']
     mapd_vars = conf_yml['reference-architecture']['mapd_deploy']
-    if(check_for_mapd_enterprise_file(mapd_vars) == 0):
-        log("mapd_check successful!!")
-    else:
-        log("mapd_check failed!!")
+    pull_mapd_list(username, password)
 
 if __name__ == '__main__':
     main()
