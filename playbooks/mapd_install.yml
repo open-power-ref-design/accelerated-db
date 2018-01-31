@@ -29,11 +29,11 @@
 #    - include: tasks/xorg_workaround.yml
 #  become: true
 
-#- name: Install nVidia Driver
-#  hosts: all
-#  tasks:
-#    - include: tasks/install_nvidia.yml
-#  become: true
+- name: Install nVidia Driver
+  hosts: all
+  tasks:
+    - include: tasks/install_nvidia.yml
+  become: true
 
 - name:  Install MapD
   hosts: all
