@@ -6,7 +6,7 @@ This repository is a comprehensive set of instructions, rules, and automation to
 ## Contents
 This repository is organized into the following:
 - **Documents (in the /docs directory)**
-    - The Accelerated Database Deployment v1.1.pdf document is the primary and starting reference for understanding and using this deployment kit.
+    - The Accelerated Database Deployment v1.2.pdf document is the primary and starting reference for understanding and using this deployment kit.
     - The Accelerated Database Deployment BOM.pdf is the Build of Materials of supported hardware.
     - The Accelerated Database Deployment Design Proposal.pdf is a technical design overview of the solution.
 - **Playbooks (in the /playbooks directory)**
@@ -33,10 +33,19 @@ Below is an example interface defined in the local "/etc/network/interfaces" fil
      - bridge_ports enP1p3s0f0
 
 ##Operations Managers (OpsMgr) Disable
+If OpsMgr is not desired, it may be disabled using folliwing:
+
 OpsMgr is enabled by default, to disable set the following environmental variable:
 `export OPSMGR_DISABLED=yes`
-To check status:
-`echo $OPSMGR_DISABLED`
+
+## MAPD environmental variables
+Once license is attained for enterprise version of MapD, provide following for deployment automation:
+
+Set MapD user
+export MAPD_USER=<user name>
+
+Set MapD password
+eport MAPD_PASS=<mapd password>
 
 ## Installation Instructions
 1. Run `git clone https://github.com/open-power-ref-design/accelerated-db.git`
