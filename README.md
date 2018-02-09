@@ -32,20 +32,21 @@ Below is an example interface defined in the local "/etc/network/interfaces" fil
      - netmask 255.255.255.0
      - bridge_ports enP1p3s0f0
 
-##Operations Managers (OpsMgr) Disable
-If OpsMgr is not desired, it may be disabled using folliwing:
-
+## Operations Managers (OpsMgr) Disable
 OpsMgr is enabled by default, to disable set the following environmental variable:
+
 `export OPSMGR_DISABLED=yes`
 
 ## MAPD environmental variables
-Once license is attained for enterprise version of MapD, provide following for deployment automation:
+Once license is attained for enterprise version of MapD, set the following environmental variables:
 
-Set MapD user
-export MAPD_USER=<user name>
+Set MapD user:
 
-Set MapD password
-eport MAPD_PASS=<mapd password>
+`export MAPD_USER=<user name>`
+
+Set MapD password:
+
+`export MAPD_PASS=<mapd password>`
 
 ## Installation Instructions
 1. Run `git clone https://github.com/open-power-ref-design/accelerated-db.git`
